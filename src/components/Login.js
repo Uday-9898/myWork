@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import checkUserRegistration from '../Utils/CheckRegistration';
 import showStatus from '../Utils/errorHandling';
 import * as IPFS from 'ipfs-core'
+import { getInstanceIPFS } from '../Utils/CreateKey'
 import SaveFile from './SaveFile';
 import FilePermissionsScreen from './FilePermissionsScreen'
 import ChangeConfidentiality from './ChangeConfidentiality'
@@ -15,7 +16,7 @@ function Login() {
     async function handleLogin(){
         try {
             const login_key = document.getElementById('login-key').value
-            const ipfs_core = await IPFS.create({repo: 'ok' + Math.random()});
+            const ipfs_core = await getInstanceIPFS();
             //Check whether CID entered already exists in javascript array which stores CIDs (later on this check will be on hyperledger fabric blockchain) starts here
             var userType, userCIDExists 
             const data = checkUserRegistration(login_key)
