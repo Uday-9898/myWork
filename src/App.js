@@ -1,24 +1,36 @@
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+import GeneralUserReg from "./components/GeneralUserReg";
+import HosLabReg from "./components/HosLabReg";
+import InsuranceComp from "./components/InsuranceComp";
+import DocReg from "./components/DocReg";
+import Login from "./components/Login"; 
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-function App() {
+const App = () => {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div>
+          <BrowserRouter>
+              <div className="header">
+                  <NavLink exact="true" activeclassname="active" to="/generalUserReg">GeneralUser Registration</NavLink>
+                  <NavLink exact="true" activeclassname="active" to="/hosLabReg">Hospital/LabRegistration</NavLink>
+                  <NavLink exact="true" activeclassname="active" to="/insuranceComp">InsuranceCompany Registration</NavLink>
+                  <NavLink exact="true" activeclassname="active" to="/docReg">Doctor Reg</NavLink>
+                  <NavLink exact="true" activeclassname="active" to="/login">Login</NavLink>
+              </div>
+              <div className="content">
+                  <Routes>
+                      <Route exact="true" path="/generalUserReg" element={<GeneralUserReg/>} />
+                      <Route path="/hosLabReg" element={<HosLabReg/>} />
+                      <Route path="/insuranceComp" element={<InsuranceComp/>} />
+                      <Route path="/docReg" element={<DocReg/>} />
+                      <Route path="/login" element={<Login/>} />
+                  </Routes>
+              </div>
+          </BrowserRouter>
+      </div>
   );
 }
 
