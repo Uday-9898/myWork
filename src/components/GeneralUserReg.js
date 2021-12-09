@@ -1,7 +1,7 @@
 import React from 'react';
 import CreateKey from '../Utils/CreateKey';
-import checkUserRegistration from '../Utils/CheckRegistration'
-import showStatus from '../Utils/errorHandling'
+import checkUserRegistration from '../Utils/CheckRegistration';
+import showStatus from '../Utils/errorHandling';
 
 const GeneralUserReg = () => {
   async function handleRegistration() {
@@ -62,7 +62,7 @@ const GeneralUserReg = () => {
             className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
             id="general-user-age"
             name="general-user-age"
-            type="text"
+            type="number"
           />
 
           <label for="general-user-address" className="f5 ma0 pb2 tracked aqua fw4 db"
@@ -90,7 +90,7 @@ const GeneralUserReg = () => {
             className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
             id="general-user-phonenumber"
             name="general-user-phonenumber"
-            type="text"
+            type="number"
           />
 
           <label for="general-user-emailaddress" className="f5 ma0 pb2 tracked aqua fw4 db"

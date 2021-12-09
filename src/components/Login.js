@@ -1,18 +1,34 @@
 import React, {useState} from 'react';
 import checkUserRegistration from '../Utils/CheckRegistration';
 import showStatus from '../Utils/errorHandling';
-import * as IPFS from 'ipfs-core'
-import { getInstanceIPFS } from '../Utils/CreateKey'
+import * as IPFS from 'ipfs-core';
+import { getInstanceIPFS } from '../Utils/CreateKey';
 import SaveFile from './SaveFile';
-import FilePermissionsScreen from './FilePermissionsScreen'
-import ChangeConfidentiality from './ChangeConfidentiality'
-import AddUserPermissions from './AddUserPermissions'
+import FilePermissionsScreen from './FilePermissionsScreen';
+import ChangeConfidentiality from './ChangeConfidentiality';
+import AddUserPermissions from './AddUserPermissions';
+import DefaultNew from './DefaultNew';
+import Default2 from './Default2';
+
 
 function Login() {
 
+  const [g_user, setUser] = useState({})
+  
+
+  const [hos, setHos] = useState({})
+  
+    
+  const [doc, setDoc] = useState({})
+  
+
+  const [ioc, setIoc] = useState({})
+  
+  
     let [genUserType, setGeneralType] = useState(false)
     let [Comp, setComponent] = useState('saveFile')
 
+    let [hocDI, setHocDI] = useState(false);
     async function handleLogin(){
         try {
             const login_key = document.getElementById('login-key').value
@@ -22,8 +38,11 @@ function Login() {
             const data = checkUserRegistration(login_key)
             userType = data[0]
             userCIDExists = data[1]
+          
             if(userType === 'G') {
                 setGeneralType(true)
+            } else{
+              setHocDI(true)
             }
             console.info(userType, userCIDExists)
             //Check whether CID entered already exists in javascript array which stores CIDs (later on this check will be on hyperledger fabric blockchain) ends here
@@ -79,13 +98,15 @@ function Login() {
                   g_user_country = await ipfs_core.dag.get(IPFS.CID.parse(login_key), {path: '/GeneralUserCountry'})
                   g_user_phonenumber = await ipfs_core.dag.get(IPFS.CID.parse(login_key), {path: '/GeneralUserPhoneNumber'})
                   g_user_emailaddress = await ipfs_core.dag.get(IPFS.CID.parse(login_key), {path: '/GeneralUserEmailAddress'})
+                  const obj = {Name: g_user_name.value, Age: g_user_age.value, Address: g_user_address.value, Country: g_user_country.value, Phone: g_user_phonenumber.value, Email: g_user_emailaddress.value}
+                  setUser(obj)
                   //Bind the variables fethched with the input textboxes on screen
-                  document.getElementById('general-user-name-retrieved').value = g_user_name.value
-                  document.getElementById('general-user-age-retrieved').value = g_user_age.value
-                  document.getElementById('general-user-address-retrieved').value = g_user_address.value
-                  document.getElementById('general-user-country-retrieved').value = g_user_country.value
-                  document.getElementById('general-user-phonenumber-retrieved').value = g_user_phonenumber.value
-                  document.getElementById('general-user-emailaddress-retrieved').value = g_user_emailaddress.value
+                  //document.getElementById('general-user-name-retrieved').value = g_user_name.value
+                  //document.getElementById('general-user-age-retrieved').value = g_user_age.value
+                  //document.getElementById('general-user-address-retrieved').value = g_user_address.value
+                  //document.getElementById('general-user-country-retrieved').value = g_user_country.value
+                  //document.getElementById('general-user-phonenumber-retrieved').value = g_user_phonenumber.value
+                  //document.getElementById('general-user-emailaddress-retrieved').value = g_user_emailaddress.value
                   break;
                 case "Hospital or Laboratory":
                   //Get data about the logged in user in different variables 
@@ -93,21 +114,25 @@ function Login() {
                   h_or_l_address = await ipfs_core.dag.get(IPFS.CID.parse(login_key), {path: '/HosLabAddress'})
                   h_or_l_phonenumber = await ipfs_core.dag.get(IPFS.CID.parse(login_key), {path: '/HosLabPhoneNumber'})
                   h_or_l_emailaddress = await ipfs_core.dag.get(IPFS.CID.parse(login_key), {path: '/HosLabEmailAddress'})
+                  const obj2 = {Name: h_or_l_name.value, Address: h_or_l_address.value, Phone: h_or_l_phonenumber.value, Email: h_or_l_emailaddress.value}
+                  setHos(obj2)
                   //Bind the variables fethched with the input textboxes on screen
-                  document.getElementById('hospital-or-laboratory-name-retrieved').value = h_or_l_name.value
-                  document.getElementById('hospital-or-laboratory-address-retrieved').value = h_or_l_address.value
-                  document.getElementById('hospital-or-laboratory-phonenumber-retrieved').value = h_or_l_phonenumber.value
-                  document.getElementById('hospital-or-laboratory-emailaddress-retrieved').value = h_or_l_emailaddress.value
+                  //document.getElementById('hospital-or-laboratory-name-retrieved').value = h_or_l_name.value
+                  //document.getElementById('hospital-or-laboratory-address-retrieved').value = h_or_l_address.value
+                  //document.getElementById('hospital-or-laboratory-phonenumber-retrieved').value = h_or_l_phonenumber.value
+                  //document.getElementById('hospital-or-laboratory-emailaddress-retrieved').value = h_or_l_emailaddress.value
                   break;
                 case "Doctor":
                   //Get data about the logged in user in different variables 
                   d_name = await ipfs_core.dag.get(IPFS.CID.parse(login_key), {path: '/DocName'})
                   d_speciality = await ipfs_core.dag.get(IPFS.CID.parse(login_key), {path: '/DocSpeciality'})
                   d_registrationnumber = await ipfs_core.dag.get(IPFS.CID.parse(login_key), {path: '/DocRegistrationnumber'})
+                  const obj3 = {Name: d_name.value, Speciality: d_speciality.value, Registration: d_registrationnumber.value}
+                  setDoc(obj3)
                   //Bind the variables fethched with the input textboxes on screen
-                  document.getElementById('doctor-name-retrieved').value = d_name.value
-                  document.getElementById('doctor-speciality-retrieved').value = d_speciality.value
-                  document.getElementById('doctor-registrationnumber-retrieved').value = d_registrationnumber.value
+                  //document.getElementById('doctor-name-retrieved').value = d_name.value
+                  //document.getElementById('doctor-speciality-retrieved').value = d_speciality.value
+                  //document.getElementById('doctor-registrationnumber-retrieved').value = d_registrationnumber.value
                   break;
                 case "Insurance Company":
                   //Get data about the logged in user in different variables 
@@ -115,11 +140,13 @@ function Login() {
                   ic_address = await ipfs_core.dag.get(IPFS.CID.parse(login_key), {path: '/InsuranceCompAddress'})
                   ic_phonenumber = await ipfs_core.dag.get(IPFS.CID.parse(login_key), {path: '/InsuranceCompPhoneNumber'})
                   ic_emailaddress = await ipfs_core.dag.get(IPFS.CID.parse(login_key), {path: '/InsuranceCompEmailAddress'})
+                  const obj4 = {Name: ic_name.value, Address: ic_address.value, Phone: ic_phonenumber.value, Email: ic_emailaddress.value}
+                  setIoc(obj4)
                   //Bind the variables fethched with the input textboxes on screen
-                  document.getElementById('insurance-company-name-retrieved').value = ic_name.value
-                  document.getElementById('insurance-company-address-retrieved').value = ic_address.value
-                  document.getElementById('insurance-company-phonenumber-retrieved').value = ic_phonenumber.value
-                  document.getElementById('insurance-company-emailaddress-retrieved').value = ic_emailaddress.value
+                  //document.getElementById('insurance-company-name-retrieved').value = ic_name.value
+                  //document.getElementById('insurance-company-address-retrieved').value = ic_address.value
+                  //document.getElementById('insurance-company-phonenumber-retrieved').value = ic_phonenumber.value
+                  //document.getElementById('insurance-company-emailaddress-retrieved').value = ic_emailaddress.value
                   break;
               } 
             } 
@@ -187,49 +214,48 @@ function Login() {
     name="general-user-name-retrieved"
     type="text"
     disabled={true}
+    value={g_user.Name}
     />
 
     <label for="general-user-age-retrieved" className="f5 ma0 pb2 tracked aqua fw4 db"
-    >Age</label
-    >
+    >Age</label>
     <input
     className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
     id="general-user-age-retrieved"
     name="general-user-age-retrieved"
-    type="text"
+    type="number"
     disabled={true}
-    />
+    value={g_user.Age}/>
 
     <label for="general-user-address-retrieved" className="f5 ma0 pb2 tracked aqua fw4 db"
-    >Address</label
-    >
+    >Address</label>
     <input
     className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
     id="general-user-address-retrieved"
     name="general-user-address-retrieved"
     type="text"
-    disabled={true}/>
+    disabled={true}
+    value={g_user.Address}/>
 
     <label for="general-user-country-retrieved" className="f5 ma0 pb2 tracked aqua fw4 db"
-    >Country</label
-    >
+    >Country</label>
     <input
     className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
     id="general-user-country-retrieved"
     name="general-user-country-retrieved"
     type="text"
-    disabled={true}/>
+    disabled={true}
+    value={g_user.Country}/>
 
     <label for="general-user-phonenumber-retrievedr" className="f5 ma0 pb2 tracked aqua fw4 db"
-    >Phone Number</label
-    >
+    >Phone Number</label>
     <input
     className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
     id="general-user-phonenumber-retrieved"
     name="general-user-phonenumber-retrieved"
-    type="text"
+    type="number"
     disabled={true}
-    />
+    value={g_user.Phone}/>
 
     <label for="general-user-emailaddress-retrieved" className="f5 ma0 pb2 tracked aqua fw4 db"
     >Email address</label>
@@ -238,7 +264,8 @@ function Login() {
     id="general-user-emailaddress-retrieved"
     name="general-user-emailaddress-retrieved"
     type="text"
-    disabled={true}/>
+    disabled={true}
+    value={g_user.Email}/>
   </form>
 </main>
 
@@ -247,35 +274,35 @@ function Login() {
   <h3>Hospital/Laboratory details</h3>
   <form id="hospital-or-laboratory-retrieved">
   <label for="hospital-or-laboratory-name-retrieved" className="f5 ma0 pb2 tracked aqua fw4 db"
-  >Name</label
-  >
+  >Name</label>
   <input
   className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
   id="hospital-or-laboratory-name-retrieved"
   name="hospital-or-laboratory-name-retrieved"
   type="text"
   disabled={true}
+  value={hos.Name}
   />
 
   <label for="hospital-or-laboratory-address-retrieved" className="f5 ma0 pb2 tracked aqua fw4 db"
-  >Address</label
-  >
+  >Address</label>
   <input
   className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
   id="hospital-or-laboratory-address-retrieved"
   name="hospital-or-laboratory-address-retrieved"
   type="text"
-  disabled={true}/>
+  disabled={true}
+  value={hos.Address}/>
 
   <label for="hospital-or-laboratory-phonenumber-retrievedr" className="f5 ma0 pb2 tracked aqua fw4 db"
-  >Phone Number</label
-  >
+  >Phone Number</label>
   <input
   className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
   id="hospital-or-laboratory-phonenumber-retrieved"
   name="hospital-or-laboratory-phonenumber-retrieved"
-  type="text"
+  type="number"
   disabled={true}
+  value={hos.Phone}
   />
 
   <label for="hospital-or-laboratory-emailaddress-retrieved" className="f5 ma0 pb2 tracked aqua fw4 db"
@@ -285,7 +312,8 @@ function Login() {
   id="hospital-or-laboratory-emailaddress-retrieved"
   name="hospital-or-laboratory-emailaddress-retrieved"
   type="text"
-  disabled={true}/>
+  disabled={true}
+  value={hos.Email}/>
 
 </form>
 </main>
@@ -295,35 +323,35 @@ function Login() {
   <h3>Doctor details</h3>
   <form id="doctor-retrieved">
   <label for="doctor-name-retrieved" className="f5 ma0 pb2 tracked aqua fw4 db"
-  >Name</label
-  >
+  >Name</label>
   <input
   className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
   id="doctor-name-retrieved"
   name="doctor-name-retrieved"
   type="text"
   disabled={true}
+  value={doc.Name}
   />
 
   <label for="doctor-speciality-retrieved" className="f5 ma0 pb2 tracked aqua fw4 db"
-  >Doctor Speciality</label
-  >
+  >Doctor Speciality</label>
   <input
   className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
   id="doctor-speciality-retrieved"
   name="doctor-speciality-retrieved"
   type="text"
-  disabled={true}/>
+  disabled={true}
+  value={doc.Speciality}/>
 
   <label for="doctor-registrationnumber-retrieved" className="f5 ma0 pb2 tracked aqua fw4 db"
-  >Phone Number</label
-  >
+  >Registration Number</label>
   <input
   className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
   id="doctor-registrationnumber-retrieved"
   name="doctor-registrationnumber-retrieved"
   type="text"
   disabled={true}
+  value={doc.Registration}
   />
 </form>
 </main>
@@ -333,35 +361,35 @@ function Login() {
   <h3>Insurance Company details</h3>
   <form id="insurance-company-retrieved">
   <label for="insurance-company-name-retrieved" className="f5 ma0 pb2 tracked aqua fw4 db"
-  >Name</label
-  >
+  >Name</label>
   <input
   className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
   id="insurance-company-name-retrieved"
   name="insurance-company-name-retrieved"
   type="text"
   disabled={true}
+  value={ioc.Name}
   />
 
   <label for="insurance-company-address-retrieved" className="f5 ma0 pb2 tracked aqua fw4 db"
-  >Address</label
-  >
+  >Address</label>
   <input
   className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
   id="insurance-company-address-retrieved"
   name="insurance-company-address-retrieved"
   type="text"
-  disabled={true}/>
+  disabled={true}
+  value={ioc.Address}/>
 
   <label for="insurance-company-phonenumber-retrievedr" className="f5 ma0 pb2 tracked aqua fw4 db"
-  >Phone Number</label
-  >
+  >Phone Number</label>
   <input
   className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
   id="insurance-company-phonenumber-retrieved"
   name="insurance-company-phonenumber-retrieved"
-  type="text"
+  type="number"
   disabled={true}
+  value={ioc.Phone}
   />
 
   <label for="insurance-company-emailaddress-retrieved" className="f5 ma0 pb2 tracked aqua fw4 db"
@@ -371,11 +399,12 @@ function Login() {
   id="insurance-company-emailaddress-retrieved"
   name="insurance-company-emailaddress-retrieved"
   type="text"
-  disabled={true}/>
+  disabled={true}
+  value={ioc.Email}/>
 </form>
 </main>
-{genUserType ? (Comp === 'saveFile' ? <SaveFile switchProps={handleComps} />: (Comp === 'fileperms'? <FilePermissionsScreen switchProps={handleComps}/>: (Comp === 'changeConfi' ? <ChangeConfidentiality switchProps={handleComps}/>:(Comp === 'addUserPerms'? <AddUserPermissions switchProps={handleComps} />:null)))): null}
+{genUserType ? (Comp === 'saveFile' ? <SaveFile switchProps={ handleComps } user={g_user.Name}/>: (Comp === 'fileperms'? <FilePermissionsScreen switchProps={handleComps} user={g_user.Name}/>: (Comp === 'changeConfi' ? <ChangeConfidentiality switchProps={handleComps} user={g_user.Name}/>:(Comp === 'addUserPerms'? <AddUserPermissions switchProps={handleComps} />:null)))): hocDI ? (Comp === 'saveFile' ? <DefaultNew switchProps={handleComps} /> : <Default2 switchProps={handleComps}/> ) : (null)}
 </div>
     )
 }
-export default Login
+export default Login;

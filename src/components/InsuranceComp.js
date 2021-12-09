@@ -70,7 +70,7 @@ const InsuranceComp = () => {
                 className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
                 id="insurancecompany-phonenumber"
                 name="insurancecompany-phonenumber"
-                type="text"
+                type="number"
                 required
             />
 

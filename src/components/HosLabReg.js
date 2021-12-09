@@ -72,7 +72,7 @@ const HosLabReg = () => {
       className="input-reset bn black-80 bg-white pa3 w-100 mb3 ft"
       id="hospital-or-laboratory-phonenumber"
       name="hospital-or-laboratory-phonenumber"
-      type="text"
+      type="number"
       required
       />
 
