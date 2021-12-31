@@ -5,7 +5,9 @@ import HosLabReg from "./components/HosLabReg";
 import InsuranceComp from "./components/InsuranceComp";
 import DocReg from "./components/DocReg";
 import Login from "./components/Login"; 
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'jquery/dist/jquery.min.js'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './App.css';
 
 const App = () => {

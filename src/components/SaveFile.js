@@ -12,8 +12,6 @@ const SaveFile = (props) => {
   const uploadFile = () => {
     console.log(files)
     if (files) {
-      console.log(files)
-      console.log(props.user)
       var today = new Date();
       var dd = today.getDate();
 
@@ -27,7 +25,7 @@ const SaveFile = (props) => {
         mm = '0' + mm;
       }
       today = dd + '-' + mm + '-' + yyyy;
-      const obj = JSON.stringify({ FileList: files.name, priority, created_by: props.user, Date: today })
+      const obj = JSON.stringify({ FileList: files.name, priority, created_by: props.user, Date: today, User_type: props.UserType })
       localStorage.setItem('UploadedFile', obj)
       setFile(null)
       setPriority(null)
@@ -49,24 +47,24 @@ const SaveFile = (props) => {
           <div className='row'>
             <div className='col-md'>
               <Button className="form-check-label" style={{ marginTop: '1rem' }} disabled={true}>
-                Set Confidentiality label
+                Set Confidentiality
               </Button>
             </div>
             <div className='col-md' onChange={(e) => { selectPriority(e) }}>
               <div className="form-check">
-                <input className="form-check-input" type="radio" name="flexRadioDefault" value='Low' checked={priority === 'Low' ? true : false} id="flexRadioDefault1" />
+                <input className="form-check-input" type="radio" name="flexRadioDefault" value='L' checked={priority === 'Low' ? true : false} id="flexRadioDefault1" />
                 <label className="form-check-label" for="flexRadioDefault1">
                   Low
                 </label>
               </div>
               <div className="form-check">
-                <input className="form-check-input" type="radio" name="flexRadioDefault" value='Medium' checked={priority === 'Medium' ? true : false} id="flexRadioDefault2" />
+                <input className="form-check-input" type="radio" name="flexRadioDefault" value='M' checked={priority === 'Medium' ? true : false} id="flexRadioDefault2" />
                 <label className="form-check-label" for="flexRadioDefault2">
                   Medium
                 </label>
               </div>
               <div className="form-check">
-                <input className="form-check-input" type="radio" name="flexRadioDefault" value='High' checked={priority === 'High' ? true : false} id="flexRadioDefault3" />
+                <input className="form-check-input" type="radio" name="flexRadioDefault" value='H' checked={priority === 'High' ? true : false} id="flexRadioDefault3" />
                 <label className="form-check-label" for="flexRadioDefault3">
                   High
                 </label>
@@ -75,7 +73,7 @@ const SaveFile = (props) => {
           </div>
           <span className='row'>
             <Button className='btn-block' style={{ marginTop: '1rem' }} onClick={(e) => { uploadFile(e) }}>Save in IPFS </Button>
-            <div id="save-file" style={{ marginTop: '1rem' }}>Fill output Message here</div>
+            <div id="save-file" style={{ marginTop: '1rem', backgroundColor: 'orange' }}>Fill output Message here</div>
           </span>
         </div>
         <div className='col-md'>
